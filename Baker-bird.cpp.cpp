@@ -1,13 +1,13 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-char text[1005][1005];
-char pattern[1005][1005];
-int match_found[1005][1005];
+// char text[1005][1005];
+// char pattern[1005][1005];
+// int match_found[1005][1005];
 
-// char text[2005][2005];
-// char pattern[305][305];
-// int match_found[2005][2005];
+char text[2005][2005];
+char pattern[305][305];
+int match_found[2005][2005];
 
 struct Trie_node
 {
@@ -24,7 +24,7 @@ vector<pair<int,int>> answer_vector;
 
 typedef Trie_node node;
 
-node *build_trie(node *root, char pattern[1005][1005], int rows, int columns, vector<int>& pat_vec)
+node *build_trie(node *root, char pattern[305][305], int rows, int columns, vector<int>& pat_vec)
 {
     int lvr, lvc;
     if(root == NULL)
@@ -212,11 +212,8 @@ bool compare(pair<int,int> a, pair<int,int> b)
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
     int tc;
-    cin>>tc;
+    tc=1;
     while(tc--)
     {
         int t1, t2, p1, p2, lv, lvr, lvc;
@@ -225,6 +222,13 @@ int main()
         // cout.tie(0);
         // cout<<"\nEnter dimensions of pattern grid:";
 
+        cin>>p1>>p2;
+        
+        // cout<<"\nEnter pattern array\n";
+        for(lvr=0;lvr<p1;lvr++)
+            for(lvc=0;lvc<p2;lvc++)
+                cin>>pattern[lvr][lvc];
+
         cin>>t1>>t2;
         
         // cout<<"\nEnter text array\n";
@@ -232,14 +236,9 @@ int main()
             for(lvc=0;lvc<t2;lvc++)
                 cin>>text[lvr][lvc];
 
-        cin>>p1>>p2;
         
-        // cout<<"\nEnter pattern array\n";
-        for(lvr=0;lvr<p1;lvr++)
-            for(lvc=0;lvc<p2;lvc++)
-                cin>>pattern[lvr][lvc]; 
+        
 
-        
         // cout<<"Enter dimensions of text grid :";
         
 
@@ -302,18 +301,18 @@ int main()
             }
         }
 
-        cout<<endl;
-        for(lvr =0; lvr < t1; lvr++)
-        {
-         for(lvc = 0; lvc < t2;lvc++)
-             cout<<match_found[lvr][lvc]<<' ';
-         cout<<endl;
-        }
-        cout<<endl;
+        // cout<<endl;
+        // for(lvr =0; lvr < t1; lvr++)
+        // {
+        //  for(lvc = 0; lvc < t2;lvc++)
+        //      cout<<match_found[lvr][lvc]<<' ';
+        //  cout<<endl;
+        // }
+        // cout<<endl;
 
         answer_vector.clear();
         vector<int> col;
-        for(lvc = p2-1 ;lvc < t2 ; lvc++)
+        for(lvc = p2-1 ;lvc < t2; lvc++)
         {
             col.clear();
             for(lvr=0;lvr<t1;lvr++)
@@ -323,26 +322,23 @@ int main()
             //  cout<<ele<<' ';
             // cout<<" to kmp\n";
             kmp(pat_vec, col, lvc);
-
-            if(answer_vector.size())
-                break;
         }
 
-        // if(answer_vector.size())
-        //     sort(answer_vector.begin(), answer_vector.end(), compare);
-
-        // if(answer_vector.size() == 0)
-        //     cout<<"NO MATCH FOUND...\n";
-        // else
-        //     for(auto pair: answer_vector)
-        //     {
-        //         cout<<'('<<pair.first - pat_vec.size()+2<<','<<pair.second-p2+2<<')'<<endl;
-        //     }
-
         if(answer_vector.size())
-            cout<<"YES\n";
+            sort(answer_vector.begin(), answer_vector.end(), compare);
+
+        if(answer_vector.size() == 0)
+            cout<<"NO MATCH FOUND...\n";
         else
-            cout<<"NO\n";
+            for(auto pair: answer_vector)
+            {
+                cout<<'('<<pair.first - pat_vec.size()+2<<','<<pair.second-p2+2<<')'<<endl;
+            }
+
+        // if(answer_vector.size())
+        //     cout<<"YES\n";
+        // else
+        //     cout<<"NO\n";
         
     }
 }
